@@ -1,0 +1,39 @@
+version: '3.9'
+
+networks:
+    game-world:
+
+services:
+    php-fpm:
+        build:
+            context: ./php-fpm
+            dockerfile: Dockerfile
+        container_name: game-world_php-fpm
+        networks:
+            - game-world
+        ports:
+            - 9000:9000
+            - 8000:8000
+        volumes:
+            - ./php-fpm/conf/:/usr/local/etc/
+            - ./php-fpm/log/:/var/log/php-fpm/
+            - ./shared/:/shared/
+            - ../src/:/var/www/html/
+        depends_on:
+            - postgresql
+    postgresql:
+        build:
+            context: ./postgresql
+            dockerfile: Dockerfile
+        container_name: game-world_postgresql
+        networks:
+            - game-world
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: game_world
+        volumes:
+            - ./postgresql/data/:/var/lib/postgresql/data/
+            - ./shared/:/shared/
