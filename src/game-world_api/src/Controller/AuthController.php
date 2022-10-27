@@ -9,19 +9,19 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/auth', name: 'auth_')]
 class AuthController extends AbstractController
 {
-    #[Route('/login', methods: 'POST', name: 'login')]
+    #[Route('/login', name: 'login', methods: 'POST')]
     public function login(): Response
     {
-        return new Reponse();
+        return new Response();
     }
 
-    #[Route('/signin', methods: 'POST', name: 'signin')]
+    #[Route('/signin', name: 'signin', methods: 'POST')]
     public function signin(): Response
     {
-        return new Reponse();
+        return new Response();
     }
 
-    #[Route('/logout', methods: 'POST', name: 'logout')]
+    #[Route('/logout', name: 'logout', methods: 'POST')]
     public function logout(): Response
     {
         return new Response();

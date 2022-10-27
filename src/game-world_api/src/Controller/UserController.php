@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/users', name: 'users_')]
 class UserController extends AbstractController
 {
-    #[Route('/me', methods: 'GET', name: 'get_me')]
+    #[Route('/me', name: 'get_me', methods: 'GET')]
     public function getMe(): Response
     {
         return new Response();
