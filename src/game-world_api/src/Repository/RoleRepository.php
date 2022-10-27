@@ -3,10 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Role;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\QueryBuilder;
 
 /**
  * @extends SqlRepository<Role>

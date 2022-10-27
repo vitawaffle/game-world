@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\RoleRepository;
-use Doctrine\ORM\Mapping\{Entity, Column};
+use Doctrine\ORM\Mapping\{Entity, Table, Column};
 
-#[Entity(repositoryClass: RoleRepository::class)]
+#[Entity(repositoryClass: RoleRepository::class), Table(name: 'roles')]
 class Role extends IntIdEntity
 {
     public function __construct(
