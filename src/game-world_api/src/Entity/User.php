@@ -14,10 +14,14 @@ use Doctrine\ORM\Mapping\{
     InverseJoinColumn,
 };
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\{
+    UserInterface,
+    PasswordAuthenticatedUserInterface,
+};
 
 #[Entity(repositoryClass: UserRepository::class), Table(name: 'users')]
 class User extends IntIdEntity
-{
+    implements UserInterface, PasswordAuthenticatedUserInterface {
     /**
      * @param ArrayCollection<Role> $roles
      */
@@ -61,20 +65,34 @@ class User extends IntIdEntity
     }
 
     /**
-     * @return ArrayCollection<Role>
+     * @return Role[]
      */
-    public function getRoles(): ArrayCollection
+    public function getRoles(): array
     {
-        return $this->roles;
+        return $this->roles->toArray();
     }
 
     /**
-     * @param ArrayCollection<Role> $roles
+     * @param Role[] $roles
      */
-    public function setRoles(ArrayCollection $roles): self
+    public function setRoles(array $roles): self
     {
-        $this->roles = $roles;
+        $this->roles = new ArrayCollection($roles);
 
         return $this;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->username;
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function eraseCredentials(): void
+    {
     }
 }
