@@ -17,12 +17,12 @@ class UserRepository extends SqlRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Role::class);
+        parent::__construct($registry, User::class);
     }
 
     public function findByUsername(string $username): ?User
     {
-        return $this->findOnBy(['username' => $username]);
+        return $this->findOneBy(['username' => $username]);
     }
 
     public function save(User $entity, bool $flush = false): void
