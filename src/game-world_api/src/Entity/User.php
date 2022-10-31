@@ -18,10 +18,11 @@ use Symfony\Component\Security\Core\User\{
     UserInterface,
     PasswordAuthenticatedUserInterface,
 };
+use \JsonSerializable;
 
 #[Entity(repositoryClass: UserRepository::class), Table(name: 'users')]
 class User extends IntIdEntity
-    implements UserInterface, PasswordAuthenticatedUserInterface {
+    implements UserInterface, PasswordAuthenticatedUserInterface, JsonSerializable {
     /** @var Collection<Role> */
     #[
         ManyToMany(targetEntity: Role::class, inversedBy: 'users'),
@@ -104,5 +105,14 @@ class User extends IntIdEntity
 
     public function eraseCredentials(): void
     {
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'username' => $this->username,
+            'roles' => $this->roles->toArray(),
+        ];
     }
 }
