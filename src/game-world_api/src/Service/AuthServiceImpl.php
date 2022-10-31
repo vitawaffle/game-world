@@ -15,11 +15,6 @@ class AuthServiceImpl implements AuthService
     ) {
     }
 
-    public function login(User $user): string
-    {
-        return '';
-    }
-
     public function signin(string $username, string $password): void
     {
         $user = new User(
@@ -33,9 +28,5 @@ class AuthServiceImpl implements AuthService
         $user->setPassword($this->passwordHasher->hashPassword($user, $password));
 
         $this->userRepository->save($user, true);
-    }
-
-    public function logout(): void
-    {
     }
 }

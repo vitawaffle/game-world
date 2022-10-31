@@ -3,10 +3,8 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\CurrentUser;
-use App\Entity\User;
+use Symfony\Component\HttpFoundation\{Response, Request};
 use App\Service\AuthService;
 
 #[Route('/auth', name: 'auth_')]
@@ -18,29 +16,20 @@ class AuthController extends AbstractController
     }
 
     #[Route('/login', name: 'login', methods: 'POST')]
-    public function login(#[CurrentUser] ?User $user): Response
+    public function login(): void
     {
-        if (null === $user) {
-            return $this->json([
-                'message' => 'Missing credentials.',
-            ], Response::HTTP_UNAUTHORIZED);
-        }
-
-        return $this->json([
-            'user' => $user,
-            'token' => $this->authService->login($user),
-        ]);
     }
 
     #[Route('/signin', name: 'signin', methods: 'POST')]
-    public function signin(): Response
+    public function signin(Request $request): Response
     {
-        return new Response();
-    }
+        $requestData = json_decode($request->getContent(), true);
 
-    #[Route('/logout', name: 'logout', methods: 'POST')]
-    public function logout(): Response
-    {
+        $this->authService->signin(
+            $requestData['username'],
+            $requestData['password'],
+        );
+
         return new Response();
     }
 }

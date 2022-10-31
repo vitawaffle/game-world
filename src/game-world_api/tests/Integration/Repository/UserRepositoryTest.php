@@ -41,6 +41,11 @@ class UserRepositoryTest extends KernelTestCase
         self::assertNull($this->repository->find(0));
     }
 
+    public function testFindShouldReturnRoles(): void
+    {
+        self::assertNotEmpty($this->repository->find(1)->getRoles());
+    }
+
     public function testFindOneByExistingCriteriaShouldReturnNotNull(): void
     {
         self::assertNotNull($this->repository->findOneBy(['username' => 'TestUser1']));

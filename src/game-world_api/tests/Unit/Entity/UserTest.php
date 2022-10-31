@@ -3,7 +3,6 @@
 namespace App\Unit\Entity;
 
 use PHPUnit\Framework\TestCase;
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\{User, Role};
 
 class UserTest extends TestCase
@@ -13,9 +12,9 @@ class UserTest extends TestCase
         self::assertNotNull(new User(
             username: 'TestUser1',
             password: 'TestPassword1',
-            roles: new ArrayCollection([
+            roles: [
                 new Role(name: 'TEST_ROLE_1', id: 1),
-            ]),
+            ],
         ));
     }
 
@@ -75,9 +74,9 @@ class UserTest extends TestCase
 
     public function testGetRolesShouldReturn(): void
     {
-        $roles = new ArrayCollection([
+        $roles = [
             new Role(name: 'TEST_ROLE_1', id: 1),
-        ]);
+        ];
 
         self::assertSame(
             $roles,
@@ -91,18 +90,18 @@ class UserTest extends TestCase
 
     public function testSetRolesShouldSet(): void
     {
-        $roles = new ArrayCollection([
+        $roles = [
             new Role(name: 'NEW_ROLE_1', id: 1),
-        ]);
+        ];
 
         self::assertSame(
             $roles,
             (new User(
                 username: 'TestUser1',
                 password: 'TestPassword1',
-                roles: new ArrayCollection([
+                roles: [
                     new Role(name: 'TEST_ROLE_1', id: 1),
-                ]),
+                ],
             ))->setRoles($roles)
                 ->getRoles(),
         );

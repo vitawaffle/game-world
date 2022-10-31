@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\{
     JoinColumn,
     InverseJoinColumn,
 };
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\{Collection, ArrayCollection};
 use Symfony\Component\Security\Core\User\{
     UserInterface,
     PasswordAuthenticatedUserInterface,
@@ -22,13 +22,14 @@ use Symfony\Component\Security\Core\User\{
 #[Entity(repositoryClass: UserRepository::class), Table(name: 'users')]
 class User extends IntIdEntity
     implements UserInterface, PasswordAuthenticatedUserInterface {
+    /** @var Collection<Role> */
     #[
         ManyToMany(targetEntity: Role::class, inversedBy: 'users'),
         JoinTable(name: 'users_roles'),
         JoinColumn(name: 'user_id', referencedColumnName: 'id'),
         InverseJoinColumn(name : 'role_id', referencedColumnName: 'id'),
     ]
-    private ArrayCollection $roles;
+    private Collection $roles;
 
     /**
      * @param string $username
@@ -74,11 +75,11 @@ class User extends IntIdEntity
     }
 
     /**
-     * @return Role[]
+     * @return string[]
      */
     public function getRoles(): array
     {
-        return $this->roles->toArray();
+        return array_map(fn ($role) => $role->getName(), $this->roles->toArray());
     }
 
     /**
