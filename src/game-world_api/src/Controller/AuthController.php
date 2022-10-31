@@ -5,14 +5,31 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use App\Entity\User;
+use App\Service\AuthService;
 
 #[Route('/auth', name: 'auth_')]
 class AuthController extends AbstractController
 {
+    public function __construct(
+        private readonly AuthService $authService,
+    ) {
+    }
+
     #[Route('/login', name: 'login', methods: 'POST')]
-    public function login(): Response
+    public function login(#[CurrentUser] ?User $user): Response
     {
-        return new Response();
+        if (null === $user) {
+            return $this->json([
+                'message' => 'Missing credentials.',
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
+        return $this->json([
+            'user' => $user,
+            'token' => $this->authService->login($user),
+        ]);
     }
 
     #[Route('/signin', name: 'signin', methods: 'POST')]

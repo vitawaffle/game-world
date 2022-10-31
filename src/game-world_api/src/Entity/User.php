@@ -22,22 +22,31 @@ use Symfony\Component\Security\Core\User\{
 #[Entity(repositoryClass: UserRepository::class), Table(name: 'users')]
 class User extends IntIdEntity
     implements UserInterface, PasswordAuthenticatedUserInterface {
+    #[
+        ManyToMany(targetEntity: Role::class, inversedBy: 'users'),
+        JoinTable(name: 'users_roles'),
+        JoinColumn(name: 'user_id', referencedColumnName: 'id'),
+        InverseJoinColumn(name : 'role_id', referencedColumnName: 'id'),
+    ]
+    private ArrayCollection $roles;
+
     /**
-     * @param ArrayCollection<Role> $roles
+     * @param string $username
+     * @param string $password
+     * @param Role[] $roles
+     * @param int|null $id
      */
     public function __construct(
         #[Column(type: 'text')]
         private string $username,
         #[Column(type: 'text')]
         private string $password,
-        #[ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
-        #[JoinTable(name: 'users_roles')]
-        #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
-        #[InverseJoinColumn(name : 'role_id', referencedColumnName: 'id')]
-        private $roles = new ArrayCollection(),
+        array $roles = [],
         ?int $id = null,
     ) {
         parent::__construct($id);
+
+        $this->roles = new ArrayCollection($roles);
     }
 
     public function getUsername(): string
