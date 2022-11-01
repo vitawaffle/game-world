@@ -3,9 +3,10 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\DTO\SigninDTO;
 
 interface AuthService extends Service
 {
-    public function signin(string $username, string $password): void;
+    public function signin(SigninDTO $signinDTO): void;
     public function getUser(): User;
 }
