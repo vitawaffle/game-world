@@ -33,6 +33,14 @@ final class Version20221027142923 extends AbstractMigration
                     LENGTH(username) > 0
                         AND username ~ '^[A-Za-z]+[A-Za-z0-9_]+$'
                 ),
+                email TEXT NOT NULL UNIQUE CHECK(
+                    LENGTH(email) > 0
+                        AND email ~ '^.+@.+$'
+                ),
+                email_verified_at TIMESTAMP WITHOUT TIME ZONE CHECK(
+                    email_verified_at IS NULL
+                        OR email_verified_at <= CURRENT_TIMESTAMP
+                ),
                 password TEXT NOT NULL
             )
         ");

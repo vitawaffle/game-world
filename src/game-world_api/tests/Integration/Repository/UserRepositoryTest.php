@@ -81,11 +81,22 @@ class UserRepositoryTest extends KernelTestCase
         self::assertNull($this->repository->findByUsername(''));
     }
 
+    public function testFindByEmailExistingEmailShouldReturnNotNull(): void
+    {
+        self::assertNotNull($this->repository->findByEmail('test1@email.com'));
+    }
+
+    public function testFindByEmailNotExistingEmailShouldReturnNull(): void
+    {
+        self::assertNull($this->repository->findByEmail(''));
+    }
+
     public function testSaveValidEntityShouldSave(): void
     {
         $this->repository->save(new User(
             username: 'TestUser',
             password: 'TestPassword',
+            email: 'test@email.com',
         ), true);
 
         self::assertNotNull($this->repository->findByUsername('TestUser'));

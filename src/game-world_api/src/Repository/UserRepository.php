@@ -25,6 +25,11 @@ class UserRepository extends SqlRepository
         return $this->findOneBy(['username' => $username]);
     }
 
+    public function findByEmail(string $email): ?User
+    {
+        return $this->findOneBy(['email' => $email]);
+    }
+
     public function save(User $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

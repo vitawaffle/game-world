@@ -18,7 +18,8 @@ use Symfony\Component\Security\Core\User\{
     UserInterface,
     PasswordAuthenticatedUserInterface,
 };
-use \JsonSerializable;
+use JsonSerializable;
+use DateTimeImmutable;
 
 #[Entity(repositoryClass: UserRepository::class), Table(name: 'users')]
 class User extends IntIdEntity
@@ -35,6 +36,8 @@ class User extends IntIdEntity
     /**
      * @param string $username
      * @param string $password
+     * @param string $email
+     * @param DateTimeImmutable|null $emailVerifiedAt
      * @param Role[] $roles
      * @param int|null $id
      */
@@ -43,6 +46,10 @@ class User extends IntIdEntity
         private string $username,
         #[Column(type: 'text')]
         private string $password,
+        #[Column(type: 'text')]
+        private string $email,
+        #[Column(type: 'datetime_immutable')]
+        private ?DateTimeImmutable $emailVerifiedAt = null,
         array $roles = [],
         ?int $id = null,
     ) {
@@ -84,11 +91,43 @@ class User extends IntIdEntity
     }
 
     /**
+     * @return Role[]
+     */
+    public function getRoleObjects(): array
+    {
+        return $this->roles->toArray();
+    }
+
+    /**
      * @param Role[] $roles
      */
     public function setRoles(array $roles): self
     {
         $this->roles = new ArrayCollection($roles);
+
+        return $this;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getEmailVerifiedAt(): ?DateTimeImmutable
+    {
+        return $this->emailVerifiedAt;
+    }
+
+    public function setEmailVerifiedAt(?DateTimeImmutable $emailVerifiedAt): self
+    {
+        $this->emailVerifiedAt = $emailVerifiedAt;
 
         return $this;
     }
@@ -113,6 +152,8 @@ class User extends IntIdEntity
             'id' => $this->id,
             'username' => $this->username,
             'roles' => $this->roles->toArray(),
+            'email' => $this->email,
+            'emailVerifiedAt' => $this->emailVerifiedAt,
         ];
     }
 }

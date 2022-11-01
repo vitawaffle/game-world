@@ -15,6 +15,7 @@ class TestUserFixtures extends Fixture implements FixtureGroupInterface
         $manager->persist(new User(
             username: 'TestUser1',
             password: 'TestPassword1',
+            email: 'test1@email.com',
             roles: [
                 $roleRepository->find(1),
             ],
@@ -23,6 +24,7 @@ class TestUserFixtures extends Fixture implements FixtureGroupInterface
         $manager->persist(new User(
             username: 'TestUser2',
             password: 'TestPassword2',
+            email: 'test2@email.com',
             roles: [
                 $roleRepository->find(2),
             ],
@@ -31,6 +33,7 @@ class TestUserFixtures extends Fixture implements FixtureGroupInterface
         $manager->persist(new User(
             username: 'TestUser3',
             password: 'TestPassword3',
+            email: 'test3@email.com',
             roles: [
                 $roleRepository->find(3),
             ],
