@@ -12,7 +12,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         login:
-            pattern: auth_login
+            pattern: ^/auth/login
             provider: app_user_provider
             stateless: true
             json_login:

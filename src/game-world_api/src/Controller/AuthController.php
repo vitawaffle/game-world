@@ -31,8 +31,13 @@ class AuthController extends AbstractController
         $errors = $this->validator->validate($signinDTO);
 
         if (count($errors) > 0) {
+            $errorArray = [];
+            foreach ($errors as $error) {
+                $errorArray[$error->getPropertyPath()] = $error->getMessage();
+            }
+
             return $this->json(
-                (string) $errors,
+                $errorArray,
                 Response::HTTP_BAD_REQUEST
             );
         }
