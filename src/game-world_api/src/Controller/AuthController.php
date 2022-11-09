@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\{Response, Request};
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -10,7 +9,7 @@ use App\Service\AuthService;
 use App\DTO\SigninDTO;
 
 #[Route('/auth', name: 'auth_')]
-class AuthController extends AbstractController
+class AuthController extends AppController
 {
     public function __construct(
         private readonly AuthService $authService,
@@ -29,17 +28,8 @@ class AuthController extends AbstractController
         $signinDTO = SigninDTO::fromRequest($request);
 
         $errors = $this->validator->validate($signinDTO);
-
         if (count($errors) > 0) {
-            $errorArray = [];
-            foreach ($errors as $error) {
-                $errorArray[$error->getPropertyPath()] = $error->getMessage();
-            }
-
-            return $this->json(
-                $errorArray,
-                Response::HTTP_BAD_REQUEST
-            );
+            return $this->jsonValidationErrors($errors);
         }
 
         $this->authService->signin($signinDTO);

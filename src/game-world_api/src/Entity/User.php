@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use App\Entity\Role;
+use App\DTO\UserDTO;
 use Doctrine\ORM\Mapping\{
     Entity,
     Table,
@@ -155,5 +156,12 @@ class User extends IntIdEntity
             'email' => $this->email,
             'emailVerifiedAt' => $this->emailVerifiedAt,
         ];
+    }
+
+    public function updateByDTO(UserDTO $dto): self
+    {
+        $this->username = $dto->username;
+
+        return $this;
     }
 }
