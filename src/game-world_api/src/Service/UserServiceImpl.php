@@ -14,7 +14,7 @@ class UserServiceImpl implements UserService
     ) {
     }
 
-    public function updateActiveUser(UserDTO $user): void
+    public function updateUser(UserDTO $user): void
     {
         $this->userRepository->save(
             $this->authService->getUser()->updateByDTO($user),

@@ -45,7 +45,7 @@ class UserController extends AppController
             return $this->jsonValidationErrors($errors);
         }
 
-        $this->userService->updateActiveUser($userDTO);
+        $this->userService->updateUser($userDTO);
 
         return new Response();
     }
