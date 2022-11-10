@@ -9,7 +9,7 @@ use App\Entity\User;
 
 class UserDTO extends DTO
 {
-    private function __construct(
+    public function __construct(
         #[
             NotBlank,
             Username,

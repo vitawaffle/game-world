@@ -4,6 +4,7 @@ namespace App\Unit\Entity;
 
 use PHPUnit\Framework\TestCase;
 use App\Entity\{User, Role};
+use App\DTO\UserDTO;
 use \DateTimeImmutable;
 
 class UserTest extends TestCase
@@ -172,6 +173,22 @@ class UserTest extends TestCase
                 ],
             ))->setRoles($roles)
                 ->getRoleObjects(),
+        );
+    }
+
+    public function testUpdateByDTOShouldSetUsername(): void
+    {
+        $username = "NewUser";
+
+        self::assertSame(
+            $username,
+            (new User(
+                username: 'TestUser1',
+                password: 'TestPassword1',
+                email: 'test1@email.com',
+            ))->updateByDTO(new UserDTO(
+                username: $username,
+            ))->getUsername(),
         );
     }
 }
