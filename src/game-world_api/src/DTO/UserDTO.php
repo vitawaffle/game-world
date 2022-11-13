@@ -24,7 +24,7 @@ class UserDTO extends DTO
         $requestData = json_decode($request->getContent(), true);
 
         return new self(
-            username: $requestData('username') ?? null,
+            username: $requestData['username'] ?? null,
         );
     }
 }
